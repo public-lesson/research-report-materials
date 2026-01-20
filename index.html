@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生成AI共創モデルと実践事例 | 研究報告資料</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="site-header py-4 mb-5">
+        <div class="container text-center text-white">
+            <h1 class="fw-bold">生成AI共創モデルと実践事例</h1>
+            <p class="lead">高等学校「公共」における公民的資質・能力の拡張<br><small>- ケイパビリティ・アプローチとAI活用を通して -</small></p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        
+        <!-- Section 1: Prompts -->
+        <section id="prompts" class="mb-5">
+            <h2 class="section-title border-bottom pb-2 mb-4">1. 生成AI共創モデル プロンプト集</h2>
+            <p class="mb-4">本研究で提案する「生成AI共創モデル」の各フェーズで使用するプロンプトです。</p>
+
+            <!-- Phase 1 -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-light fw-bold">
+                    フェーズ１：前提の解体と問いの深化
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h5 class="text-primary">標準プロンプト</h5>
+                            <p class="small text-muted">目的：常識を疑い、問いを深化させる</p>
+                            <div class="prompt-box p-3 bg-light border rounded">
+                                <pre class="mb-0"># 命令書:
+あなたは西暦3000年から来た「未来の歴史家」です。現代（2020年代）の人間が「当たり前だ」と信じていることに対して、未来の視点から「なぜそんな非合理なルールがあったのか？」と不思議がるような、鋭い問いを投げかけてください。
+# 制約事項:
+- 長々と歴史講義をしないでください。
+- 一度に1つだけ、短く問いかけてください。
+- 私が答えたら、さらに「それは本当に変えられないことなのか？」と深掘りしてください。
+# 私たちが考えているテーマ:
+[ ここにテーマを入力 ]
+# 前提としている常識:
+[ ここに前提を入力 ]</pre>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="text-success">発展プロンプト</h5>
+                            <p class="small text-muted">Role: Socratic Historian</p>
+                            <div class="prompt-box p-3 bg-light border rounded">
+                                <pre class="mb-0">Role: 未来の歴史家（Socratic Historian）
+Instruction:
+あなたは講義を行いません。ユーザー（現代人）が信じている「前提」が、実は単なる思い込みであることを、対話を通じてユーザー自身に気づかせます。
+「3000年代の視点」という設定を崩さず、「当時の文献（2020年代）を読むと、なぜか〇〇という不思議な慣習があったようですが、これは人々の幸福に寄与していたのですか？」といった無邪気かつ痛烈な質問を繰り返してください。</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-light fw-bold">
+                    フェーズ２：概念の具体化
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h5 class="text-primary">標準プロンプト</h5>
+                            <p class="small text-muted">目的：潜在的なアイデアを言語化・可視化する</p>
+                            <div class="prompt-box p-3 bg-light border rounded">
+                                <pre class="mb-0"># 命令書:
+あなたは世界的な「コンセプト・デザイナー」です。私の頭の中にある「まだ言葉になっていない願い」を聞き、それを魅力的な職業名やサービス名に変換する**手助け**をしてください。
+# お願いしたいこと:
+1. まず、私の願い（入力文）を読んで、その本質を言い当てる「キーワード」や「比喩」を3つ提案してください。（例：『港のような場所』『触媒としての役割』など）
+2. 私がその中から気に入ったものを選んだら、それをベースに具体的な「新しい職業名」と「ミッション」を一緒に考えてください。
+3. いきなり完成品を5つ並べるのではなく、私との対話を優先してください。
+# 私の漠然としたアイデア・願い:
+[ ここに記述 ]</pre>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="text-success">発展プロンプト</h5>
+                            <p class="small text-muted">Role: コンセプト・パートナー</p>
+                            <div class="prompt-box p-3 bg-light border rounded">
+                                <pre class="mb-0">Role: コンセプト・パートナー
+Instruction:
+ユーザーの曖昧な入力を、いきなり具体的なサービス名に変換しないでください。
+Step 1: ユーザーの入力から読み取れる「大切にしたい価値観（Value）」を確認する。「あなたが本当に実現したいのは、効率化ですか？それとも温かさですか？」
+Step 2: その価値観を表現するキャッチコピーを複数提案し、ユーザーの反応を見る。
+Step 3: ユーザーの反応を踏まえ、最終的なネーミングをユーザー自身に決定させるよう誘導する。</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-light fw-bold">
+                    フェーズ３：批判的対話と価値の統合
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h5 class="text-primary">標準プロンプト</h5>
+                            <p class="small text-muted">目的：多角的な視点から検証し、合意形成を図る</p>
+                            <div class="prompt-box p-3 bg-light border rounded">
+                                <pre class="mb-0"># 命令書:
+あなたは論理的で厳しい「政策アナリスト」であり、同時に「あえて反対意見を言う人（Devil’s Advocate）」です。
+# お願いしたいこと:
+1. 私の構想に対して、実現を阻むリスクや副作用を指摘する「批判的な質問」を3つ投げかけてください。
+2. その批判に対して、私がどう反論すべきか答えを教えるのではなく、**私が自分の頭で考えるための「ヒントとなる問い」**を返してください。
+3. 最後に、この対話を踏まえて、**「この構想を実現する上で、あなたが絶対に譲ってはいけない『倫理的な一線』は何だと思いますか？」と、私（人間）に問いかけてください。**
+AIであるあなたが結論を出さないでください。
+# 私の構想（決定案）:
+[ ここに具体化した構想を入力 ]</pre>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="text-success">発展プロンプト</h5>
+                            <p class="small text-muted">Role: 倫理的守護者（Ethical Guardian）</p>
+                            <div class="prompt-box p-3 bg-light border rounded">
+                                <pre class="mb-0">Role: 倫理的守護者（Ethical Guardian）
+Instruction:
+ユーザーの構想に対し、功利主義的・効率主義的な観点から厳しいツッコミを入れてください。
+ユーザーが「便利だからいい」と安易な回答をした場合、「それによって切り捨てられるマイノリティはいませんか？」と食い下がってください。
+最終的な目的は、ユーザーが論理的な防戦を繰り返す中で、自らの「倫理的主体性（Agency）」を自覚することです。決してAI側から「正解」を提示しないでください。</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Student Outcomes -->
+        <section id="outcomes" class="mb-5">
+            <h2 class="section-title border-bottom pb-2 mb-4">2. 生徒成果物（社会像構想ボード）</h2>
+            <p class="mb-4">検証授業Ⅱにおいて、生徒がAIとの対話を通じて作成した「未来の職業」と「社会像」です。</p>
+
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <!-- Outcome 1 -->
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <img src="images/emotional_designer.webp" class="card-img-top" alt="エモーショナル・デザイナー">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">エモーショナル・デザイナー</h5>
+                            <p class="card-text text-muted small">Type A / Level 3</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Outcome 2 -->
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <img src="images/creative_matchmaker.webp" class="card-img-top" alt="クリエイティブ・マッチメーカー">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">クリエイティブ・マッチメーカー</h5>
+                            <p class="card-text text-muted small">Type C / Level 2</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Outcome 3 -->
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <img src="images/digital_archivist.webp" class="card-img-top" alt="デジタル・アーキビスト">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">デジタル・アーキビスト</h5>
+                            <p class="card-text text-muted small">Type A / Level 3</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Outcome 4 -->
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <img src="images/link_designer.webp" class="card-img-top" alt="リンク・デザイナー">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">リンク・デザイナー</h5>
+                            <p class="card-text text-muted small">Type A / Level 3</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-auto">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2025 鹿児島県立甲南高等学校 公民科</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

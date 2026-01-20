@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+body {
+    font-family: "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Header Styling - Matching the Public Lesson Theme */
+.site-header {
+    background: linear-gradient(135deg, #0d47a1 0%, #1565c0 100%);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.section-title {
+    color: #0d47a1;
+    border-bottom: 3px solid #0d47a1 !important;
+    display: inline-block;
+}
+
+/* Prompt Box Styling */
+.prompt-box {
+    background-color: #ffffff !important;
+    border-left: 5px solid #0d47a1 !important;
+    font-family: "Menlo", "Monaco", "Consolas", "Courier New", monospace;
+    font-size: 0.9rem;
+    white-space: pre-wrap; /* 折り返しを有効にする */
+    word-wrap: break-word;
+}
+
+.card {
+    border: none;
+    transition: transform 0.2s;
+}
+
+/* Hover effect for outcome cards */
+#outcomes .card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background-color: #e3f2fd !important;
+    color: #0d47a1;
+    border-bottom: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .site-header h1 {
+        font-size: 1.5rem;
+    }
+    .prompt-box {
+        font-size: 0.8rem;
+    }
+}
