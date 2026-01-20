@@ -7,10 +7,27 @@ body {
     line-height: 1.6;
 }
 
-/* Header Styling - Matching the Public Lesson Theme */
+/* Header Styling */
 .site-header {
-    background: linear-gradient(135deg, #0d47a1 0%, #1565c0 100%);
+    /* 背景画像の設定 */
+    background-image: url('../images/header_bg.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* 文字を読みやすくするための暗いオーバーレイ（画像が読み込まれない時の背景色も兼ねる） */
+    background-color: #001f3f; 
+    
+    /* 高さの確保 */
+    min-height: 300px;
+    
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* タイトル文字に影をつけて、背景画像の上でも読みやすくする */
+.site-header h1, 
+.site-header p {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .section-title {
@@ -25,7 +42,7 @@ body {
     border-left: 5px solid #0d47a1 !important;
     font-family: "Menlo", "Monaco", "Consolas", "Courier New", monospace;
     font-size: 0.9rem;
-    white-space: pre-wrap; /* 折り返しを有効にする */
+    white-space: pre-wrap;
     word-wrap: break-word;
 }
 
@@ -52,5 +69,8 @@ body {
     }
     .prompt-box {
         font-size: 0.8rem;
+    }
+    .site-header {
+        min-height: 250px;
     }
 }

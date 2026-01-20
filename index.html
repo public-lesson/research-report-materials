@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>生成AI共創モデルと実践事例 | 研究報告資料</title>
+    <title>生成AI共創モデルと生徒成果物 | 研究発表会資料</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
@@ -14,10 +14,19 @@
 <body>
 
     <!-- Header -->
-    <header class="site-header py-4 mb-5">
-        <div class="container text-center text-white">
-            <h1 class="fw-bold">生成AI共創モデルと実践事例</h1>
-            <p class="lead">高等学校「公共」における公民的資質・能力の拡張<br><small>- ケイパビリティ・アプローチとAI活用を通して -</small></p>
+    <header class="site-header mb-5">
+        <div class="container h-100 d-flex flex-column justify-content-center position-relative">
+            
+            <!-- Navigation (Top Right) -->
+            <nav class="header-nav d-flex justify-content-end mb-3 pt-3">
+                <a href="#prompts" class="btn btn-outline-light btn-sm me-2 rounded-pill px-3">プロンプト集</a>
+                <a href="#outcomes" class="btn btn-outline-light btn-sm rounded-pill px-3">生徒成果物</a>
+            </nav>
+
+            <div class="text-white py-5">
+                <h1 class="fw-bold display-5">プロンプト集と生徒成果物</h1>
+                <p class="lead">高等学校「公共」における公民的資質・能力の拡張<br><small>- ケイパビリティ・アプローチとAI活用を通して -</small></p>
+            </div>
         </div>
     </header>
 
@@ -26,7 +35,12 @@
         <!-- Section 1: Prompts -->
         <section id="prompts" class="mb-5">
             <h2 class="section-title border-bottom pb-2 mb-4">1. 生成AI共創モデル プロンプト集</h2>
-            <p class="mb-4">本研究で提案する「生成AI共創モデル」の各フェーズで使用するプロンプトです。</p>
+            <p class="mb-4">「生成AI共創モデル」の各フェーズで使用するプロンプト</p>
+
+            <!-- Model Diagram Image -->
+            <div class="text-center mb-5">
+                <img src="images/model_diagram.webp" alt="生成AI共創モデル図" class="img-fluid rounded shadow-sm border" style="max-width: 100%; height: auto;">
+            </div>
 
             <!-- Phase 1 -->
             <div class="card mb-4 shadow-sm">
@@ -143,10 +157,10 @@ Instruction:
         <!-- Section 2: Student Outcomes -->
         <section id="outcomes" class="mb-5">
             <h2 class="section-title border-bottom pb-2 mb-4">2. 生徒成果物（社会像構想ボード）</h2>
-            <p class="mb-4">検証授業Ⅱにおいて、生徒がAIとの対話を通じて作成した「未来の職業」と「社会像」です。</p>
+            <p class="mb-4">検証授業Ⅱにおいて、生徒が生成AIとの対話を通じて作成した「未来の職業」と「社会像」</p>
 
             <div class="row row-cols-1 row-cols-md-2 g-4">
-                <!-- Outcome 1 -->
+                <!-- 1. エモーショナル・デザイナー -->
                 <div class="col">
                     <div class="card h-100 shadow-sm">
                         <img src="images/emotional_designer.webp" class="card-img-top" alt="エモーショナル・デザイナー">
@@ -156,17 +170,7 @@ Instruction:
                         </div>
                     </div>
                 </div>
-                <!-- Outcome 2 -->
-                <div class="col">
-                    <div class="card h-100 shadow-sm">
-                        <img src="images/creative_matchmaker.webp" class="card-img-top" alt="クリエイティブ・マッチメーカー">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">クリエイティブ・マッチメーカー</h5>
-                            <p class="card-text text-muted small">Type C / Level 2</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Outcome 3 -->
+                <!-- 2. デジタル・アーキビスト -->
                 <div class="col">
                     <div class="card h-100 shadow-sm">
                         <img src="images/digital_archivist.webp" class="card-img-top" alt="デジタル・アーキビスト">
@@ -176,13 +180,23 @@ Instruction:
                         </div>
                     </div>
                 </div>
-                <!-- Outcome 4 -->
+                <!-- 3. リンク・デザイナー -->
                 <div class="col">
                     <div class="card h-100 shadow-sm">
                         <img src="images/link_designer.webp" class="card-img-top" alt="リンク・デザイナー">
                         <div class="card-body">
                             <h5 class="card-title fw-bold">リンク・デザイナー</h5>
                             <p class="card-text text-muted small">Type A / Level 3</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 4. クリエイティブ・マッチメーカー -->
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <img src="images/creative_matchmaker.webp" class="card-img-top" alt="クリエイティブ・マッチメーカー">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">クリエイティブ・マッチメーカー</h5>
+                            <p class="card-text text-muted small">Type C / Level 2</p>
                         </div>
                     </div>
                 </div>
