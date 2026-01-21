@@ -15,7 +15,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     
-    /* 文字を読みやすくするための暗いオーバーレイ（画像が読み込まれない時の背景色も兼ねる） */
+    /* 文字を読みやすくするための暗いオーバーレイ */
     background-color: #001f3f; 
     
     /* 高さの確保 */
@@ -44,6 +44,7 @@ body {
     font-size: 0.9rem;
     white-space: pre-wrap;
     word-wrap: break-word;
+    position: relative; /* コピーボタン配置用 */
 }
 
 .card {
@@ -62,51 +63,7 @@ body {
     border-bottom: none;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .site-header h1 {
-        font-size: 1.5rem;
-    }
-    .prompt-box {
-        font-size: 0.8rem;
-    }
-    .site-header {
-        min-height: 250px;
-    }
-}
-
-/* Back to Top Button Styling */
-#btn-back-to-top {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    display: none; /* 最初は隠しておく */
-    z-index: 1000; /* 他の要素より手前に表示 */
-    
-    width: 50px;
-    height: 50px;
-    border-radius: 50%; /* 丸くする */
-    
-    background-color: #0d47a1; /* テーマカラーの青 */
-    border: none;
-    color: white;
-    font-size: 1.2rem;
-    
-    opacity: 0.8;
-    transition: all 0.3s ease;
-}
-
-#btn-back-to-top:hover {
-    background-color: #1565c0;
-    opacity: 1;
-    transform: translateY(-5px); /* ホバー時に少し浮く */
-}
-
 /* Copy Button Styling - Simple Icon Style */
-.prompt-box {
-    position: relative;
-}
-
 .btn-copy {
     position: absolute;
     top: 8px;
@@ -137,4 +94,60 @@ body {
     width: 20px;
     height: 20px;
     fill: currentColor;
+}
+
+/* Back to Top Button Styling */
+#btn-back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: none; /* 最初は隠しておく */
+    z-index: 1000; /* 他の要素より手前に表示 */
+    
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* 丸くする */
+    
+    background-color: #0d47a1; /* テーマカラーの青 */
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+#btn-back-to-top:hover {
+    background-color: #1565c0;
+    opacity: 1;
+    transform: translateY(-5px); /* ホバー時に少し浮く */
+}
+
+/* 画像の保護設定 */
+img {
+    /* ドラッグ＆ドロップを禁止 */
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+    
+    /* 画像を選択（ハイライト）できないようにする */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .site-header h1 {
+        font-size: 1.5rem;
+    }
+    .prompt-box {
+        font-size: 0.8rem;
+    }
+    .site-header {
+        min-height: 250px;
+    }
 }

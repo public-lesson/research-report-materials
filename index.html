@@ -248,6 +248,15 @@ Instruction:
         function backToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+      
+      // --- ここから追加：画像の右クリック禁止 ---
+        document.addEventListener('contextmenu', function (e) {
+            // クリックされた要素が「画像（IMG）」だった場合
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault(); // メニューが出るのを阻止する
+            }
+        });
+        // --- ここまで追加 ---
 
 // --- 2. Copy Button Logic ---
         document.addEventListener("DOMContentLoaded", function() {
