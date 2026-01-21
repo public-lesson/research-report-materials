@@ -101,3 +101,40 @@ body {
     opacity: 1;
     transform: translateY(-5px); /* ホバー時に少し浮く */
 }
+
+/* Copy Button Styling - Simple Icon Style */
+.prompt-box {
+    position: relative;
+}
+
+.btn-copy {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 10;
+    
+    background-color: transparent; /* 背景透明 */
+    border: none; /* 枠線なし */
+    border-radius: 4px;
+    padding: 6px; /* クリックしやすい余白 */
+    
+    color: #6c757d; /* アイコンの色（グレー） */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-copy:hover {
+    background-color: rgba(0, 0, 0, 0.05); /* ホバー時にうっすらグレー */
+    color: #0d47a1; /* ホバー時のアイコン色 */
+}
+
+/* アイコンのサイズ */
+.btn-copy svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
