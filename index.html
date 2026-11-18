@@ -4,57 +4,781 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>プロンプト集と生徒の成果物 | 研究発表会資料</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --brand-blue: #0d47a1;
+            --brand-blue-hover: #1565c0;
+            --brand-blue-soft: #e3f2fd;
+            --brand-green: #146c43;
+            --text-main: #333333;
+            --text-muted: #4b5563;
+            --bg-page: #f8f9fa;
+            --bg-card: #ffffff;
+            --border-color: #dee2e6;
+            --material-border: #dbe7f5;
+            --focus-ring: #f59e0b;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.65;
+        }
+
+        body:has(.slide-dialog[open]) {
+            overflow: hidden;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            -webkit-user-drag: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        :where(a, button, select):focus-visible {
+            outline: 3px solid var(--focus-ring);
+            outline-offset: 2px;
+        }
+
+        .container {
+            width: min(100% - 1.5rem, 1140px);
+            margin-inline: auto;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Header */
+        .site-header {
+            background-image:
+                linear-gradient(rgba(0, 24, 55, 0.68), rgba(0, 35, 75, 0.75)),
+                url('images/header_bg.webp');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #001f3f;
+            min-height: 300px;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-inner {
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding-top: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .nav-pill-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0.45rem 1.4rem;
+            border-radius: 9999px;
+            background-color: #ffffff;
+            color: var(--brand-blue);
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .nav-pill-btn:hover {
+            background-color: var(--brand-blue-soft);
+        }
+
+        .hero-body {
+            padding-block: 2.5rem 3rem;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .hero-body h1 {
+            margin: 0 0 0.75rem;
+            font-size: clamp(1.5rem, 4.5vw, 3rem);
+            font-weight: 700;
+            line-height: 1.25;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-lead {
+            margin: 0;
+            font-size: clamp(1rem, 2.2vw, 1.25rem);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-lead small {
+            font-size: 0.85em;
+        }
+
+        /* Main Sections */
+        main.container {
+            margin-bottom: 3rem;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 1rem;
+        }
+
+        .section-title {
+            display: inline-block;
+            margin: 0 0 1.5rem;
+            padding-bottom: 0.5rem;
+            color: var(--brand-blue);
+            border-bottom: 3px solid var(--brand-blue);
+            font-size: clamp(1.35rem, 2.5vw, 2rem);
+            font-weight: 700;
+            line-height: 1.35;
+        }
+
+        .section-intro {
+            margin: 0 0 1.5rem;
+        }
+
+        /* Diagram Figures */
+        .figure-box {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .diagram-img {
+            margin-inline: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+
+        .figure-caption {
+            margin: 1rem 0 0;
+            font-weight: 700;
+        }
+
+        /* Cards & Grid */
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 0.5rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            padding: 0.85rem 1.25rem;
+            background-color: var(--brand-blue-soft);
+            color: var(--brand-blue);
+            font-weight: 700;
+        }
+
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        /* Prompts */
+        .prompt-heading {
+            margin: 0 0 1rem;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .prompt-heading.is-standard {
+            color: var(--brand-blue);
+        }
+
+        .prompt-heading.is-advanced {
+            color: var(--brand-green);
+        }
+
+        .prompt-box {
+            position: relative;
+            padding: 1rem 3.25rem 1rem 1rem;
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--brand-blue);
+            border-radius: 0.375rem;
+            font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+            font-size: 0.9rem;
+        }
+
+        .prompt-box pre {
+            margin: 0;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            font-family: inherit;
+            font-size: inherit;
+            line-height: 1.65;
+        }
+
+        .btn-copy {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            z-index: 10;
+            min-width: 44px;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            border: none;
+            border-radius: 6px;
+            color: #5c636a;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .btn-copy:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: var(--brand-blue);
+        }
+
+        .btn-copy.is-copied {
+            color: var(--brand-green);
+        }
+
+        .btn-copy.is-error {
+            color: #b91c1c;
+        }
+
+        .btn-copy svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Student Outcome Cards */
+        .outcome-card {
+            margin-bottom: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .outcome-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.12);
+        }
+
+        .outcome-card img {
+            width: 100%;
+            height: auto;
+        }
+
+        .outcome-title {
+            margin: 0 0 0.35rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .outcome-meta {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Materials Cards (Section 3) */
+        .material-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 1.5rem;
+            background-color: var(--bg-card);
+            border: 1px solid var(--material-border);
+            border-top: 5px solid var(--brand-blue);
+            border-radius: 0.5rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+
+        .material-card.is-presentation {
+            background-image:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.80) 0%,
+                    rgba(255, 255, 255, 0.72) 48%,
+                    rgba(255, 255, 255, 0.62) 100%
+                ),
+                url('images/presentation_bg.webp');
+            background-size: cover;
+            background-position: center 60%;
+            background-repeat: no-repeat;
+        }
+
+        .material-kicker {
+            margin: 0;
+            color: var(--brand-blue);
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .material-title {
+            margin: 0.35rem 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .material-description {
+            margin: 0.35rem 0 1.25rem;
+            color: var(--text-muted);
+        }
+
+        .material-actions {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .material-link {
+            display: inline-flex;
+            width: 100%;
+            min-height: 48px;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            padding: 0.7rem 1rem;
+            border: none;
+            border-radius: 0.375rem;
+            background-color: var(--brand-blue);
+            color: #ffffff;
+            font: inherit;
+            font-weight: 700;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .material-link:hover {
+            background-color: var(--brand-blue-hover);
+        }
+
+        .material-sublink {
+            display: inline-flex;
+            min-height: 44px;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            padding: 0.45rem 0.75rem;
+            border: 1px solid var(--material-border);
+            border-radius: 0.375rem;
+            background-color: #f8fbff;
+            color: var(--brand-blue);
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.2s ease;
+        }
+
+        .material-sublink:hover {
+            background-color: var(--brand-blue-soft);
+        }
+
+        /* Slide Viewer Modal (<dialog>) */
+        .slide-dialog {
+            padding: 0;
+            border: none;
+            border-radius: 0.75rem;
+            width: min(96vw, 1080px);
+            max-width: 96vw;
+            max-height: 92dvh;
+            margin: auto;
+            background-color: #111827;
+            color: #ffffff;
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+        }
+
+        .slide-dialog[open] {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide-dialog::backdrop {
+            background-color: rgba(15, 23, 42, 0.78);
+            backdrop-filter: blur(3px);
+        }
+
+        .viewer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            padding: 0.65rem 1rem;
+            background-color: #1f2937;
+            border-bottom: 1px solid #374151;
+        }
+
+        .viewer-title-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-width: 0;
+        }
+
+        .viewer-title {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .viewer-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .viewer-pdf-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0.4rem 0.85rem;
+            border: 1px solid #4b5563;
+            border-radius: 0.375rem;
+            background-color: #374151;
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .viewer-pdf-btn:hover {
+            background-color: #4b5563;
+        }
+
+        .viewer-close-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            min-height: 44px;
+            border: none;
+            border-radius: 0.375rem;
+            background-color: transparent;
+            color: #e5e7eb;
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .viewer-close-btn:hover {
+            background-color: #374151;
+            color: #ffffff;
+        }
+
+        .viewer-stage {
+            position: relative;
+            flex: 1 1 auto;
+            min-height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem;
+            background-color: #0b1120;
+            overflow: hidden;
+            touch-action: pan-y pinch-zoom;
+        }
+
+        .viewer-stage img {
+            max-width: 100%;
+            max-height: calc(92dvh - 140px);
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 0.25rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .viewer-fallback {
+            padding: 2rem 1rem;
+            text-align: center;
+            color: #e5e7eb;
+        }
+
+        .viewer-fallback[hidden] {
+            display: none;
+        }
+
+        .viewer-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            padding: 0.65rem 1rem;
+            background-color: #1f2937;
+            border-top: 1px solid #374151;
+        }
+
+        .viewer-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            min-width: 96px;
+            min-height: 44px;
+            padding: 0.5rem 1rem;
+            border: 1px solid #4b5563;
+            border-radius: 0.375rem;
+            background-color: var(--brand-blue);
+            color: #ffffff;
+            font: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .viewer-nav-btn:hover:not(:disabled) {
+            background-color: var(--brand-blue-hover);
+        }
+
+        .viewer-nav-btn:disabled {
+            background-color: #374151;
+            border-color: #374151;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .viewer-page-picker {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .viewer-select {
+            min-height: 44px;
+            padding: 0.35rem 0.6rem;
+            border: 1px solid #4b5563;
+            border-radius: 0.375rem;
+            background-color: #111827;
+            color: #ffffff;
+            font: inherit;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        .site-footer {
+            margin-top: auto;
+            background-color: #212529;
+            color: #ffffff;
+            padding-block: 1.5rem;
+            text-align: center;
+        }
+
+        .site-footer p {
+            margin: 0;
+        }
+
+        /* Back to Top Button */
+        #btn-back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            background-color: var(--brand-blue);
+            color: #ffffff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.85;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        #btn-back-to-top.is-visible {
+            display: inline-flex;
+        }
+
+        #btn-back-to-top:hover {
+            background-color: var(--brand-blue-hover);
+            opacity: 1;
+            transform: translateY(-5px);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 767.98px) {
+            .site-header,
+            .header-inner {
+                min-height: 250px;
+            }
+            .header-nav {
+                justify-content: center;
+            }
+            .hero-body {
+                padding-block: 1.75rem 2.25rem;
+            }
+            .prompt-box {
+                font-size: 0.8rem;
+            }
+            .slide-dialog {
+                width: 98vw;
+                max-width: 98vw;
+                max-height: 94dvh;
+            }
+            .viewer-title {
+                font-size: 0.9rem;
+            }
+            .viewer-nav-btn {
+                min-width: 78px;
+                padding: 0.45rem 0.7rem;
+                font-size: 0.85rem;
+            }
+            #btn-back-to-top {
+                bottom: 16px;
+                right: 16px;
+            }
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+            *, *::before, *::after {
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+            }
+            .outcome-card:hover,
+            #btn-back-to-top:hover {
+                transform: none;
+            }
+        }
+
+        /* Print Support */
+        @media print {
+            #btn-back-to-top,
+            .btn-copy,
+            .header-nav,
+            .slide-dialog {
+                display: none !important;
+            }
+            .site-header {
+                min-height: auto;
+                box-shadow: none;
+            }
+            .card,
+            .prompt-box,
+            .material-card {
+                break-inside: avoid;
+                box-shadow: none;
+            }
+            .material-link,
+            .material-sublink {
+                color: var(--brand-blue);
+                background-color: transparent;
+                border: 1px solid var(--brand-blue);
+            }
+            /* ↓ ここに追記（733行目の直後） */
+            .material-card.is-presentation {
+                background-image: none;
+            }
+        }
+    </style>
 </head>
 <body>
 
     <!-- Header -->
-    <header class="site-header mb-5">
-        <div class="container h-100 d-flex flex-column justify-content-center position-relative">
-            
-            <!-- Navigation (Top Right) -->
-            <nav class="header-nav d-flex justify-content-end mb-3 pt-3">
-                <a href="#prompts" class="btn btn-light btn-sm me-2 rounded-pill px-4 fw-bold shadow text-primary">プロンプト集</a>
-                <a href="#outcomes" class="btn btn-light btn-sm rounded-pill px-4 fw-bold shadow text-primary">生徒の成果物</a>
+    <header class="site-header">
+        <div class="container header-inner">
+            <nav class="header-nav" aria-label="ページ内ナビゲーション">
+                <a href="#prompts" class="nav-pill-btn">プロンプト集</a>
+                <a href="#outcomes" class="nav-pill-btn">生徒の成果物</a>
+                <a href="#materials" class="nav-pill-btn">研究資料</a>
             </nav>
 
-            <div class="text-white py-5 text-center">
-                <h1 class="fw-bold display-5">プロンプト集と生徒の成果物</h1>
-                <p class="lead">高等学校「公共」における公民としての資質・能力の拡張<br><small>- 令和７年度 長期研修者研究報告書資料 -</small></p>
+            <div class="hero-body">
+                <h1>プロンプト集と生徒の成果物</h1>
+                <p class="hero-lead">高等学校「公共」における公民としての資質・能力の拡張<br><small>- 令和７年度 長期研修者研究報告書資料 -</small></p>
             </div>
         </div>
     </header>
 
-    <div class="container mb-5">
-        
+    <main class="container">
         <!-- Section 1: Prompts -->
-        <section id="prompts" class="mb-5">
-            <h2 class="section-title border-bottom pb-2 mb-4">1. プロンプト集（生成AI共創モデル）</h2>
-            <p class="mb-4">「生成AI共創モデル」の各フェーズで使用するプロンプト例</p>
+        <section id="prompts">
+            <h2 class="section-title">1. プロンプト集（生成AI共創モデル）</h2>
+            <p class="section-intro">「生成AI共創モデル」の各フェーズで使用するプロンプト例</p>
 
             <!-- Model Diagram Image -->
-            <div class="text-center mb-5">
-                <img src="images/model_diagram.webp" alt="価値共創スパイラル・モデル図" class="img-fluid rounded shadow-sm border" style="max-width: 100%; height: auto;">
-                <!-- キャプション -->
-                <p class="fw-bold mt-3">図１：多面的・多角的な見方・考え方を深化させる「生成AI共創モデル」</p>
+            <div class="figure-box">
+                <img src="images/model_diagram.webp" alt="価値共創スパイラル・モデル図" class="diagram-img" loading="eager" decoding="async">
+                <p class="figure-caption">図１：多面的・多角的な見方・考え方を深化させる「生成AI共創モデル」</p>
             </div>
 
             <!-- Phase 1 -->
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header bg-light fw-bold">
+            <div class="card">
+                <div class="card-header">
                     フェーズ１：前提の解体と問いの深化
                 </div>
                 <div class="card-body">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <h5 class="text-primary mb-3">標準プロンプト例</h5>
-                            <div class="prompt-box p-3 bg-light border rounded">
-<pre class="mb-0"># あなたの役割
+                    <div class="grid-2">
+                        <div>
+                            <h3 class="prompt-heading is-standard">標準プロンプト例</h3>
+                            <div class="prompt-box">
+<pre># あなたの役割
 あなたは西暦3000年から来た「未来の歴史家」です。
 現代（2020年代）の人間が「当たり前だ」と信じていることに対して、未来の視点から「なぜそんな不思議なルールがあったのか？」と優しく問い掛けてください。
 
@@ -82,10 +806,10 @@
 [ ここに前提を入力 ]</pre>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <h5 class="text-success mb-3">発展プロンプト例（Gems / GPTs システム指示）</h5>
-                            <div class="prompt-box p-3 bg-light border rounded">
-<pre class="mb-0">Role: 未来の歴史家（Socratic Historian）
+                        <div>
+                            <h3 class="prompt-heading is-advanced">発展プロンプト例（Gems / GPTs システム指示）</h3>
+                            <div class="prompt-box">
+<pre>Role: 未来の歴史家（Socratic Historian）
 
 Instruction:
 あなたは講義や解説を一切行いません。
@@ -108,16 +832,16 @@ Step３: 「今の社会の仕組みのせいで、本当は選びたいのに�
             </div>
 
             <!-- Phase 2 -->
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header bg-light fw-bold">
+            <div class="card">
+                <div class="card-header">
                     フェーズ２：概念の具体化
                 </div>
                 <div class="card-body">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <h5 class="text-primary mb-3">標準プロンプト例</h5>
-                            <div class="prompt-box p-3 bg-light border rounded">
-<pre class="mb-0"># あなたの役割
+                    <div class="grid-2">
+                        <div>
+                            <h3 class="prompt-heading is-standard">標準プロンプト例</h3>
+                            <div class="prompt-box">
+<pre># あなたの役割
 あなたは、私のモヤモヤした思いを具体的な形にする「アイデアの案内人」です。
 
 # 目的
@@ -140,10 +864,10 @@ Step３: 「今の社会の仕組みのせいで、本当は選びたいのに�
 [ ここに記述 ]</pre>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <h5 class="text-success mb-3">発展プロンプト例（Gems / GPTs システム指示）</h5>
-                            <div class="prompt-box p-3 bg-light border rounded">
-<pre class="mb-0">Role: コンセプト・パートナー
+                        <div>
+                            <h3 class="prompt-heading is-advanced">発展プロンプト例（Gems / GPTs システム指示）</h3>
+                            <div class="prompt-box">
+<pre>Role: コンセプト・パートナー
 
 Instruction:
 ユーザーの曖昧な入力を、いきなり具体的なサービス名や職業名に変換しないでください。
@@ -166,16 +890,16 @@ Step３: ユーザーの反応を踏まえ、それを実現する具体的な�
             </div>
 
             <!-- Phase 3 -->
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header bg-light fw-bold">
+            <div class="card">
+                <div class="card-header">
                     フェーズ３：批判的対話と価値の統合
                 </div>
                 <div class="card-body">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <h5 class="text-primary mb-3">標準プロンプト例</h5>
-                            <div class="prompt-box p-3 bg-light border rounded">
-<pre class="mb-0"># あなたの役割
+                    <div class="grid-2">
+                        <div>
+                            <h3 class="prompt-heading is-standard">標準プロンプト例</h3>
+                            <div class="prompt-box">
+<pre># あなたの役割
 あなたは、みんなの幸せを守る「優しい確認役（倫理の案内人）」です。
 
 # 目的
@@ -199,10 +923,10 @@ Step３: ユーザーの反応を踏まえ、それを実現する具体的な�
 [ ここに具体化した構想を入力 ]</pre>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <h5 class="text-success mb-3">発展プロンプト例（Gems / GPTs システム指示）</h5>
-                            <div class="prompt-box p-3 bg-light border rounded">
-<pre class="mb-0">Role: 倫理的守護者（Ethical Guardian）
+                        <div>
+                            <h3 class="prompt-heading is-advanced">発展プロンプト例（Gems / GPTs システム指示）</h3>
+                            <div class="prompt-box">
+<pre>Role: 倫理的守護者（Ethical Guardian）
 
 Instruction:
 ユーザーの構想に対し、効率や便利さだけでなく、「誰かの選択肢を奪っていないか」「本当にみんなが幸せになれるか」という観点から、優しく、しかし本質的な問いを投げかけます。
@@ -225,146 +949,368 @@ Step３: 「このアイデアを通して、あなたが社会に届けたい�
         </section>
 
         <!-- Section 2: Student Outcomes -->
-        <section id="outcomes" class="mb-5">
-            <h2 class="section-title border-bottom pb-2 mb-4">2. 生徒の成果物（社会像構想ボード）</h2>
-            <p class="mb-4">検証授業Ⅱにおいて、生徒が生成AIとの対話を通じて作成した「未来の職業」と「社会像構想」の代表例</p>
+        <section id="outcomes">
+            <h2 class="section-title">2. 生徒の成果物（社会像構想ボード）</h2>
+            <p class="section-intro">検証授業Ⅱにおいて、生徒が生成AIとの対話を通じて作成した「未来の職業」と「社会像構想」の代表例</p>
 
             <!-- Future Matrix Image -->
-            <div class="text-center mb-5">
-                <img src="images/future_matrix.webp" alt="未来構想マトリクスと成果物の分布" class="img-fluid rounded shadow-sm border" style="max-width: 100%; height: auto;">
-                <!-- キャプション -->
-                <p class="fw-bold mt-3">図２：「未来構想マトリクス」における成果物の位置付け</p>
+            <div class="figure-box">
+                <img src="images/future_matrix.webp" alt="未来構想マトリクスと成果物の分布" class="diagram-img" loading="lazy" decoding="async">
+                <p class="figure-caption">図２：「未来構想マトリクス」における成果物の位置付け</p>
             </div>
 
-            <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="grid-2">
                 <!-- 1. エモーショナル・デザイナー -->
-                <div class="col">
-                    <div class="card h-100 shadow-sm">
-                        <img src="images/emotional_designer.webp" class="card-img-top" alt="エモーショナル・デザイナー">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">エモーショナル・デザイナー</h5>
-                            <p class="card-text text-muted small">Type A / Level 3</p>
-                        </div>
+                <article class="card outcome-card">
+                    <img src="images/emotional_designer.webp" alt="エモーショナル・デザイナー" loading="lazy" decoding="async">
+                    <div class="card-body">
+                        <h3 class="outcome-title">エモーショナル・デザイナー</h3>
+                        <p class="outcome-meta">Type A / Level 3</p>
                     </div>
-                </div>
+                </article>
                 <!-- 2. デジタル・アーキビスト -->
-                <div class="col">
-                    <div class="card h-100 shadow-sm">
-                        <img src="images/digital_archivist.webp" class="card-img-top" alt="デジタル・アーキビスト">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">デジタル・アーキビスト</h5>
-                            <p class="card-text text-muted small">Type A / Level 3</p>
-                        </div>
+                <article class="card outcome-card">
+                    <img src="images/digital_archivist.webp" alt="デジタル・アーキビスト" loading="lazy" decoding="async">
+                    <div class="card-body">
+                        <h3 class="outcome-title">デジタル・アーキビスト</h3>
+                        <p class="outcome-meta">Type A / Level 3</p>
                     </div>
-                </div>
+                </article>
                 <!-- 3. リンク・デザイナー -->
-                <div class="col">
-                    <div class="card h-100 shadow-sm">
-                        <img src="images/link_designer.webp" class="card-img-top" alt="リンク・デザイナー">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">リンク・デザイナー</h5>
-                            <p class="card-text text-muted small">Type A / Level 3</p>
-                        </div>
+                <article class="card outcome-card">
+                    <img src="images/link_designer.webp" alt="リンク・デザイナー" loading="lazy" decoding="async">
+                    <div class="card-body">
+                        <h3 class="outcome-title">リンク・デザイナー</h3>
+                        <p class="outcome-meta">Type A / Level 3</p>
                     </div>
-                </div>
+                </article>
                 <!-- 4. クリエイティブ・マッチメーカー -->
-                <div class="col">
-                    <div class="card h-100 shadow-sm">
-                        <img src="images/creative_matchmaker.webp" class="card-img-top" alt="クリエイティブ・マッチメーカー">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">クリエイティブ・マッチメーカー</h5>
-                            <p class="card-text text-muted small">Type C / Level 2</p>
-                        </div>
+                <article class="card outcome-card">
+                    <img src="images/creative_matchmaker.webp" alt="クリエイティブ・マッチメーカー" loading="lazy" decoding="async">
+                    <div class="card-body">
+                        <h3 class="outcome-title">クリエイティブ・マッチメーカー</h3>
+                        <p class="outcome-meta">Type C / Level 2</p>
                     </div>
-                </div>
+                </article>
             </div>
         </section>
 
-    </div>
+        <!-- Section 3: Research Materials -->
+        <section id="materials">
+            <h2 class="section-title">3. 研究報告書・発表資料</h2>
+            <p class="section-intro">研究報告書と研究発表資料を公開しています。発表資料はこのページ内でスライド形式のまま閲覧できます。</p>
+
+            <div class="grid-2">
+                <article class="material-card">
+                    <p class="material-kicker">研究報告書</p>
+                    <h3 class="material-title">令和7年度 長期研修者研究報告書</h3>
+                    <p class="material-description">Google Driveで研究報告書を閲覧できます（新しいタブで開きます）。</p>
+                    <div class="material-actions">
+                        <a class="material-link" href="https://drive.google.com/file/d/1PF4KM0dBNCvrjfkodI4u-sySUaYRUM9E/view" target="_blank" rel="noopener noreferrer">
+                            研究報告書を閲覧する<span aria-hidden="true"> ↗</span><span class="visually-hidden">（新しいタブで開きます）</span>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="material-card is-presentation">
+                    <p class="material-kicker">研究発表資料</p>
+                    <h3 class="material-title">高等学校「公共」における公民としての資質・能力の拡張</h3>
+                    <p class="material-description">全25枚のスライド資料をページ内のビューアでそのまま閲覧できます。</p>
+                    <div class="material-actions">
+                        <button type="button" class="material-link" id="open-slide-viewer">
+                            研究発表資料を閲覧する（全25枚）
+                        </button>
+                        <a class="material-sublink" href="assets/documents/research-presentation-2025.pdf" target="_blank" rel="noopener noreferrer">
+                            PDF版を別タブで開く・保存する<span aria-hidden="true"> ↗</span><span class="visually-hidden">（新しいタブで開きます）</span>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Slide Viewer Modal -->
+    <dialog id="slide-viewer-dialog" class="slide-dialog" aria-labelledby="slide-viewer-title">
+        <div class="viewer-header">
+            <div class="viewer-title-group">
+                <h3 id="slide-viewer-title" class="viewer-title">研究発表資料スライド</h3>
+            </div>
+            <div class="viewer-header-actions">
+                <a class="viewer-pdf-btn" href="assets/documents/research-presentation-2025.pdf" target="_blank" rel="noopener noreferrer">
+                    PDF版<span aria-hidden="true"> ↗</span><span class="visually-hidden">（新しいタブで開きます）</span>
+                </a>
+                <button type="button" class="viewer-close-btn" id="close-slide-viewer" aria-label="ビューアを閉じる" title="閉じる">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="viewer-stage" id="viewer-stage">
+            <img id="slide-viewer-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="研究発表資料 スライド 1 / 25" decoding="async">
+            <div id="slide-viewer-fallback" class="viewer-fallback" hidden>
+                <p>スライド画像を読み込めませんでした。<br><code>assets/slides/</code> 内のファイル名（<code>01.webp</code>〜<code>25.webp</code>）をご確認ください。</p>
+            </div>
+        </div>
+
+        <div class="viewer-controls">
+            <button type="button" class="viewer-nav-btn" id="slide-prev-btn">
+                <span aria-hidden="true">◀</span> 前へ
+            </button>
+
+            <div class="viewer-page-picker">
+                <label for="slide-page-select" class="visually-hidden">表示するスライド番号</label>
+                <select id="slide-page-select" class="viewer-select"></select>
+                <span aria-hidden="true">/ 25</span>
+            </div>
+
+            <button type="button" class="viewer-nav-btn" id="slide-next-btn">
+                次へ <span aria-hidden="true">▶</span>
+            </button>
+        </div>
+    </dialog>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-4 mt-auto">
-        <div class="container text-center">
-            <p class="mb-0">&copy; 2025 鹿児島県立甲南高等学校 公民科</p>
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 鹿児島県立甲南高等学校 公民科</p>
         </div>
     </footer>
 
     <!-- Back to Top Button -->
-    <button type="button" class="btn btn-primary shadow" id="btn-back-to-top" title="トップに戻る">
-        ▲
+    <button type="button" id="btn-back-to-top" title="ページの先頭へ戻る" aria-label="ページの先頭へ戻る">
+        <span aria-hidden="true">▲</span>
     </button>
 
-    <!-- Scripts -->
+    <!-- Screen Reader Status for Copy Feedback -->
+    <div id="copy-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+
     <script>
-        // --- 1. Back to Top Button Logic ---
-        let mybutton = document.getElementById("btn-back-to-top");
+        (() => {
+            'use strict';
 
-        window.onscroll = function () {
-            scrollFunction();
-        };
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+            const topButton = document.getElementById('btn-back-to-top');
+            const copyStatus = document.getElementById('copy-status');
 
-        function scrollFunction() {
-            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                mybutton.style.display = "block";
-            } else {
-                mybutton.style.display = "none";
-            }
-        }
+            // 1. Back to Top Button
+            const updateTopButton = () => {
+                topButton.classList.toggle('is-visible', window.scrollY > 200);
+            };
+            window.addEventListener('scroll', updateTopButton, { passive: true });
+            updateTopButton();
 
-        mybutton.addEventListener("click", backToTop);
+            topButton.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: reducedMotion.matches ? 'auto' : 'smooth'
+                });
+            });
 
-        function backToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      
-      // --- 画像の右クリック禁止 ---
-        document.addEventListener('contextmenu', function (e) {
-            if (e.target.tagName === 'IMG') {
-                e.preventDefault();
-            }
-        });
+            // 2. 画像の右クリック禁止（不要な場合はこのブロックを削除可能）
+            document.addEventListener('contextmenu', (e) => {
+                if (e.target instanceof HTMLImageElement) {
+                    e.preventDefault();
+                }
+            });
 
-// --- 2. Copy Button Logic ---
-        document.addEventListener("DOMContentLoaded", function() {
-            const promptBoxes = document.querySelectorAll('.prompt-box');
+            // 3. Copy Button Logic
+            const createSvgIcon = (paths) => {
+                const svgNS = 'http://www.w3.org/2000/svg';
+                const svg = document.createElementNS(svgNS, 'svg');
+                svg.setAttribute('viewBox', '0 0 16 16');
+                svg.setAttribute('aria-hidden', 'true');
+                paths.forEach((d) => {
+                    const path = document.createElementNS(svgNS, 'path');
+                    path.setAttribute('d', d);
+                    svg.appendChild(path);
+                });
+                return svg;
+            };
 
-            promptBoxes.forEach(box => {
+            const clipboardPaths = [
+                'M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z',
+                'M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z'
+            ];
+            const checkPaths = [
+                'M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z'
+            ];
+
+            const fallbackCopy = (text) => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.setAttribute('readonly', '');
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                let ok = false;
+                try {
+                    ok = document.execCommand('copy');
+                } finally {
+                    textarea.remove();
+                }
+                return ok;
+            };
+
+            document.querySelectorAll('.prompt-box').forEach((box, index) => {
+                const pre = box.querySelector('pre');
+                if (!pre) return;
+
                 const button = document.createElement('button');
+                button.type = 'button';
                 button.className = 'btn-copy';
-                button.title = "クリップボードにコピー";
-                
-                button.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                    </svg>
-                `;
-                
-                button.addEventListener('click', function() {
-                    const preText = box.querySelector('pre').innerText;
-                    
-                    navigator.clipboard.writeText(preText).then(() => {
-                        const originalHTML = button.innerHTML;
-                        button.innerHTML = `
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-                            </svg>
-                        `;
-                        button.classList.add('text-success');
-                        
-                        setTimeout(() => {
-                            button.innerHTML = originalHTML;
-                            button.classList.remove('text-success');
-                        }, 2000);
-                    });
+                button.title = 'クリップボードにコピー';
+                button.setAttribute('aria-label', `プロンプト${index + 1}をクリップボードにコピー`);
+                button.replaceChildren(createSvgIcon(clipboardPaths));
+
+                let timerId;
+                button.addEventListener('click', async () => {
+                    const text = pre.textContent ?? '';
+                    let ok = false;
+                    try {
+                        if (navigator.clipboard && window.isSecureContext) {
+                            await navigator.clipboard.writeText(text);
+                            ok = true;
+                        } else {
+                            ok = fallbackCopy(text);
+                        }
+                    } catch {
+                        ok = fallbackCopy(text);
+                    }
+
+                    clearTimeout(timerId);
+                    button.classList.remove('is-copied', 'is-error');
+
+                    if (ok) {
+                        button.replaceChildren(createSvgIcon(checkPaths));
+                        button.classList.add('is-copied');
+                        copyStatus.textContent = `プロンプト${index + 1}をクリップボードにコピーしました。`;
+                    } else {
+                        button.classList.add('is-error');
+                        copyStatus.textContent = 'コピーできませんでした。本文を手動で選択してコピーしてください。';
+                    }
+
+                    timerId = setTimeout(() => {
+                        button.replaceChildren(createSvgIcon(clipboardPaths));
+                        button.classList.remove('is-copied', 'is-error');
+                    }, 2000);
                 });
 
                 box.appendChild(button);
             });
-        });
-    </script>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            // 4. WebP Slide Viewer Logic
+            const TOTAL_SLIDES = 25;
+            const dialog = document.getElementById('slide-viewer-dialog');
+            const openViewerBtn = document.getElementById('open-slide-viewer');
+            const closeViewerBtn = document.getElementById('close-slide-viewer');
+            const viewerStage = document.getElementById('viewer-stage');
+            const slideImg = document.getElementById('slide-viewer-img');
+            const slideFallback = document.getElementById('slide-viewer-fallback');
+            const prevBtn = document.getElementById('slide-prev-btn');
+            const nextBtn = document.getElementById('slide-next-btn');
+            const pageSelect = document.getElementById('slide-page-select');
+
+            let currentSlide = 1;
+
+            // ページ選択オプション生成（1〜25）
+            for (let i = 1; i <= TOTAL_SLIDES; i++) {
+                const option = document.createElement('option');
+                option.value = String(i);
+                option.textContent = String(i);
+                pageSelect.appendChild(option);
+            }
+
+            const getSlidePath = (page) => `assets/slides/${String(page).padStart(2, '0')}.webp`;
+
+            const preloadSlide = (page) => {
+                if (page < 1 || page > TOTAL_SLIDES) return;
+                const img = new Image();
+                img.src = getSlidePath(page);
+            };
+
+            const renderSlide = (page) => {
+                currentSlide = Math.min(Math.max(page, 1), TOTAL_SLIDES);
+                slideFallback.hidden = true;
+                slideImg.hidden = false;
+                slideImg.src = getSlidePath(currentSlide);
+                slideImg.alt = `研究発表資料 スライド ${currentSlide} / ${TOTAL_SLIDES}`;
+                pageSelect.value = String(currentSlide);
+                prevBtn.disabled = currentSlide === 1;
+                nextBtn.disabled = currentSlide === TOTAL_SLIDES;
+
+                // 前後の1枚だけを先読みして快適なめくりを実現
+                preloadSlide(currentSlide + 1);
+                preloadSlide(currentSlide - 1);
+            };
+
+            slideImg.addEventListener('error', () => {
+                if (!dialog.open) return;
+                slideImg.hidden = true;
+                slideFallback.hidden = false;
+            });
+
+            openViewerBtn.addEventListener('click', () => {
+                renderSlide(currentSlide);
+                dialog.showModal();
+            });
+
+            closeViewerBtn.addEventListener('click', () => {
+                dialog.close();
+            });
+
+            // モーダル外側の暗い背景クリックで閉じる
+            dialog.addEventListener('click', (e) => {
+                if (e.target === dialog) {
+                    dialog.close();
+                }
+            });
+
+            prevBtn.addEventListener('click', () => renderSlide(currentSlide - 1));
+            nextBtn.addEventListener('click', () => renderSlide(currentSlide + 1));
+            pageSelect.addEventListener('change', (e) => {
+                renderSlide(Number(e.target.value));
+            });
+
+            // キーボード操作（← / → / Home / End）
+            dialog.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    if (currentSlide > 1) renderSlide(currentSlide - 1);
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    if (currentSlide < TOTAL_SLIDES) renderSlide(currentSlide + 1);
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    renderSlide(1);
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    renderSlide(TOTAL_SLIDES);
+                }
+            });
+
+            // スマホ向け左右スワイプ操作
+            let touchStartX = 0;
+            let touchStartY = 0;
+            viewerStage.addEventListener('touchstart', (e) => {
+                if (e.touches.length !== 1) return;
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+
+            viewerStage.addEventListener('touchend', (e) => {
+                if (e.changedTouches.length !== 1) return;
+                const dx = e.changedTouches[0].clientX - touchStartX;
+                const dy = e.changedTouches[0].clientY - touchStartY;
+                if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+                    if (dx < 0 && currentSlide < TOTAL_SLIDES) {
+                        renderSlide(currentSlide + 1);
+                    } else if (dx > 0 && currentSlide > 1) {
+                        renderSlide(currentSlide - 1);
+                    }
+                }
+            }, { passive: true });
+        })();
+    </script>
 </body>
 </html>
